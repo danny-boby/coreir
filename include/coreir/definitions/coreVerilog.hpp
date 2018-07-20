@@ -51,12 +51,12 @@ void CoreIRLoadVerilog_coreir(Context* c) {
       {"tribuf","en ? in : 'hz"},
       {"ibuf","in"},
       //{"term",""}
-      //{"reg",""}, 
-      //{"mem",""}, 
+      //{"reg",""},
+      //{"mem",""},
     }}
   });
- 
-  
+
+
   std::map<std::string,std::vector<std::string>> coreIMap({
     {"unary",{
       "input [width-1:0] in",
@@ -134,7 +134,7 @@ void CoreIRLoadVerilog_coreir(Context* c) {
       "input [width-1:0] wdata",
       "input [$clog2(depth)-1:0] waddr",
       "input wen",
-      "output [width-1:0] rdata",
+      "output reg [width-1:0] rdata",
       "input [$clog2(depth)-1:0] raddr"
     }}
   });
@@ -160,7 +160,7 @@ void CoreIRLoadVerilog_coreir(Context* c) {
   }
 
   core->getGenerator("const")->getMetaData()["verilog"]["parameters"] = {"value"};
-  
+
   {
     //Term
     json vjson;
@@ -185,7 +185,7 @@ void CoreIRLoadVerilog_coreir(Context* c) {
     "  else outReg <= in;\n"
     "end\n"
     "assign out = outReg;";
-    core->getGenerator("reg_arst")->getMetaData()["verilog"] = vjson; 
+    core->getGenerator("reg_arst")->getMetaData()["verilog"] = vjson;
     cout << "VJSON for reg: " << vjson << endl;
     cout << "metadata for reg: " << core->getGenerator("reg_arst")->getMetaData() << endl;
   }
@@ -217,8 +217,8 @@ void CoreIRLoadVerilog_coreir(Context* c) {
     "  if (wen) begin\n"
     "    data[waddr] <= wdata;\n"
     "  end\n"
+    "  rdata <= data[raddr];";
     "end\n"
-    "assign rdata = data[raddr];";
     core->getGenerator("mem")->getMetaData()["verilog"] = vjson;
-  } 
+  }
 }
