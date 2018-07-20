@@ -217,8 +217,8 @@ void CoreIRLoadVerilog_coreir(Context* c) {
     "  if (wen) begin\n"
     "    data[waddr] <= wdata;\n"
     "  end\n"
-    "  rdata <= data[raddr];";
-    "end\n"
+    "  rdata <= data[raddr];"
+    "end\n";
     core->getGenerator("mem")->getMetaData()["verilog"] = vjson;
   }
 }
