@@ -17,6 +17,7 @@
 #include "analysis/verifyflattenedtypes.h"
 #include "analysis/createinstancemap.h"
 #include "analysis/createcombview.h"
+#include "analysis/instructionprofiling.h"
 
 //Transform passes
 #include "transform/flatten.h"
@@ -67,7 +68,7 @@ namespace CoreIR {
     pm.addPass(new Passes::VerifyConnectivity());
     pm.addPass(new Passes::VerifyFlattenedTypes());
     pm.addPass(new Passes::CreateCombView());
-
+    pm.addPass(new Passes::InstructionProfiling());
 
     //Transform
     pm.addPass(new Passes::Flatten());
