@@ -31,13 +31,10 @@ void Passes::InstructionProfiling::increment(Instance* inst) {
       (moduleref->getGenArgs().count("width") ?
        moduleref->getGenArgs().at("width")->get<int>() :
        (moduleref->getGenArgs().count("bitwidth") ?
-        moduleref->getGenArgs().at("width")->get<int>() : 1)) : 1;
-
-
+        moduleref->getGenArgs().at("width")->get<int>() : 0)) : 0;
 
   instruction_counts[instname][bitwidth] += 1;
-  std::cout << "incremented for " << instname << " with bitwidth=" << bitwidth << std::endl;
-  //            << inst->getModuleRef()->toString() << std::endl;
+  //std::cout << "incremented for " << instname << " with bitwidth=" << bitwidth << std::endl;
 }
 
 bool Passes::InstructionProfiling::runOnInstanceGraphNode(InstanceGraphNode& node) {
@@ -64,7 +61,11 @@ void Passes::InstructionProfiling::writeToStream(std::ostream& os) {
     for (auto bitwidth_count_pair : inst_bw_map) {
       uint bitwidth = bitwidth_count_pair.first;
       int count = bitwidth_count_pair.second;
-      os << instname << bitwidth << ": " << count << std::endl;
+      if (bitwidth == 0) {
+        os << instname << ": " << count << std::endl;
+      } else {
+        os << instname << bitwidth << ": " << count << std::endl;
+      }
     }
   }
 }
